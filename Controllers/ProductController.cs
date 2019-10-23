@@ -65,7 +65,7 @@ namespace CoffeeMugWebApi.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ProductUpdateInputModel>> Put(ProductUpdateInputModel model)
         {
-            if (model.Id == Guid.Empty || !ModelState.IsValid)
+            if (model.Id == Guid.Empty)
             {
                 return BadRequest();
             }
@@ -89,11 +89,6 @@ namespace CoffeeMugWebApi.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<Product>> Post(ProductCreateInputModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-
             Guid guid = await _repository.Create(model);
 
             return CreatedAtAction(nameof(Get), new { id = guid }, guid);

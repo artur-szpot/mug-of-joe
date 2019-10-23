@@ -7,7 +7,8 @@ As this project is open source and allows free access to the underlying database
 The database is a free service provided by [remotemysql.com](https://remotemysql.com/).
 
 # Prerequisites
-Visual Studio 2019 or .NET.
+* Visual Studio 2017 version 15.7 or higher
+* .NET Core 2.1 and a few other packages which should be automatically collected by the Studio
 
 # Description
 A simple Web Api allowing for CRUD operations on a set of Product entities, defined as follows:
@@ -27,7 +28,7 @@ After being ran, the API presents the following endpoints:
 # Contributions
 Any changes and further development will not be merged with master in this repository, as the project was created in adherence to strict instructions.
 
-For extra features, please see the **dev** branch.
+Extra features may later be added to the **dev** branch.
 
 # Built with
 [Visual Studio 2019](https://visualstudio.microsoft.com)
