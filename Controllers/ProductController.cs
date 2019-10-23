@@ -57,9 +57,11 @@ namespace CoffeeMugWebApi.Controllers
 
         /* 
          * Updates a single Product based on its Id.
+         * If the product does not exist, it will be created instead if createIfNotFound is set to true in request body.
          * Requires providing a full set of information.
          */
         [HttpPut]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -74,7 +76,14 @@ namespace CoffeeMugWebApi.Controllers
 
             if (!result)
             {
-                return NotFound();
+                if (model.createIfNotFound)
+                {
+                    return (await Post(ProductUpdateInputModel.Create(model))).Result;
+                }
+                else
+                {
+                    return NotFound();
+                }
             }
 
             return NoContent();
@@ -96,7 +105,7 @@ namespace CoffeeMugWebApi.Controllers
         }
 
         /*
-         * Deletes a single Product if it exists.
+         * Deletes a single Product if it exists. Accepts Id via request route.
          */
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -104,6 +113,24 @@ namespace CoffeeMugWebApi.Controllers
         public async Task<ActionResult<Product>> Delete(Guid id)
         {
             Product removed = await _repository.Remove(id);
+
+            if (removed == null)
+            {
+                return NotFound();
+            }
+
+            return NoContent();
+        }
+
+        /*
+         * Deletes a single Product if it exists. Accepts Id via request body.
+         */
+        [HttpDelete]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<Product>> Delete(ProductDeleteInputModel model)
+        {
+            Product removed = await _repository.Remove(model.Id);
 
             if (removed == null)
             {
