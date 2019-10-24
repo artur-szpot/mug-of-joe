@@ -78,7 +78,8 @@ namespace CoffeeMugWebApi.Controllers
             {
                 if (model.createIfNotFound)
                 {
-                    return (await Post(ProductUpdateInputModel.Create(model))).Result;
+                    ProductCreateInputModel createModel = (ProductCreateInputModel)Product.ApplyOther(new ProductCreateInputModel(), model);
+                    return (await Post(createModel)).Result;
                 }
                 else
                 {

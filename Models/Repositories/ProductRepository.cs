@@ -84,7 +84,7 @@ namespace CoffeeMugWebApi.Models.Repositories
                 return false;
             }
 
-            product = ProductUpdateInputModel.Update(product, model);
+            product = Product.ApplyOther(product, model);
 
             _context.Set<Product>().Update(product);
 

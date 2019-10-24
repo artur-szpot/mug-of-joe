@@ -12,10 +12,20 @@ namespace CoffeeMugWebApi.Models.DataTypes
 
         [StringLength(100, MinimumLength = 1)]
         [Required]
-        public string Name { get; set; }
+        public string Name { get; set; } = "";
 
         [Range(0.01, 99999999.99)]
         [Required]
-        public Decimal Price { get; set; }
+        public decimal Price { get; set; } = 0;
+
+        /*
+         * The single place for applying Product attributes based on other instance.
+         */
+        public static Product ApplyOther(Product product, Product model)
+        {
+            product.Name = model.Name;
+            product.Price = model.Price;
+            return product;
+        }
     }
 }
